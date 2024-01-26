@@ -41,6 +41,7 @@ const EditAssignedTaskForm: React.FC<EditAssignedTaskFormProps> = ({ onClose,tas
 
     const startDateTime = (`${formattedStartDate}T${editedStartDate}:00.000Z`);
     const endDateTime = (`${formattedStartDate}T${editedEndDate}:00.000Z`);
+    const token = Cookies.get('jwtToken');
 
     const updatedData: TaskUpdateData = {
       id: taskId,
@@ -56,6 +57,7 @@ const EditAssignedTaskForm: React.FC<EditAssignedTaskFormProps> = ({ onClose,tas
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
         },
         body: JSON.stringify(updatedData),
       });
@@ -75,11 +77,14 @@ const EditAssignedTaskForm: React.FC<EditAssignedTaskFormProps> = ({ onClose,tas
   };
 
   const handleDelete = async () => {
+    const token = Cookies.get('jwtToken');
+
     try {
       const response = await fetch('http://localhost:8080/api/deleteAssignedTask', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`,
         },
         body: JSON.stringify(taskId),
       });

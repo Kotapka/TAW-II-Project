@@ -31,11 +31,13 @@ const AssignedTaskForm: React.FC<AssignedTaskFormProps> = ({ selectedDate, onClo
 
   useEffect(() => {
     const fetchCategories = async () => {
+      const token = Cookies.get('jwtToken');
       try {
         const response = await fetch('http://localhost:8080/api/user/getCategories', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`,
           },
           body: JSON.stringify({
             login: storedUserLogin,
@@ -58,12 +60,14 @@ const AssignedTaskForm: React.FC<AssignedTaskFormProps> = ({ selectedDate, onClo
 
   useEffect(() => {
     const fetchTasks = async () => {
+      const token = Cookies.get('jwtToken');
       try {
         if (selectedCategory !== '') {
           const response = await fetch('http://localhost:8080/api/user/getTasksByCategory', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
+              'Authorization': `Bearer ${token}`,
             },
             body: JSON.stringify({
               login: storedUserLogin,
@@ -104,12 +108,14 @@ const AssignedTaskForm: React.FC<AssignedTaskFormProps> = ({ selectedDate, onClo
 
     const startDateTime = (`${formattedStartDate}T${startDate}:00.000Z`);
     const endDateTime = (`${formattedStartDate}T${endDate}:00.000Z`);
+    const token = Cookies.get('jwtToken');
 
     try {
       const response = await fetch('http://localhost:8080/api/saveAssignedTask', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`,
         },
         body: JSON.stringify({
           startDate: startDateTime,

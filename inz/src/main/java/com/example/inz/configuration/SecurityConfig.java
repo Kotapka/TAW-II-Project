@@ -31,6 +31,13 @@ public class SecurityConfig {
                 .authorizeHttpRequests((requests) -> requests
                         .requestMatchers(HttpMethod.POST, "/api/register").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/login").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/api/addCategory").authenticated()
+                        .requestMatchers(HttpMethod.POST, "/api/addTask").authenticated()
+                        .requestMatchers(HttpMethod.POST, "/api/user/getTasks").authenticated()
+                        .requestMatchers(HttpMethod.POST, "/api/user/getTasksByCategory").authenticated()
+                        .requestMatchers(HttpMethod.POST, "/api/saveAssignedTask").authenticated()
+                        .requestMatchers(HttpMethod.POST, "/api/user/getAssignedTask").authenticated()
+                        .requestMatchers(HttpMethod.POST, "/api/editAssignedTask").authenticated()
                         .requestMatchers("/v2/api-docs", "/configuration/**", "/swagger*/**", "/webjars/**").permitAll()
                         .anyRequest().permitAll()
                 );

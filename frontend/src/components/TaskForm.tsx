@@ -21,11 +21,13 @@ const TaskForm: React.FC<TaskFormProps> = ({ onClose }) => {
 
   useEffect(() => {
     const fetchCategories = async () => {
+      const token = Cookies.get('jwtToken');
       try {
         const response = await fetch('http://localhost:8080/api/user/getCategories', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`,
           },
           body: JSON.stringify({
             login: storedUserLogin,
@@ -64,12 +66,15 @@ const TaskForm: React.FC<TaskFormProps> = ({ onClose }) => {
       setError('All data must be correct.');
       return;
     }
+    const token = Cookies.get('jwtToken');
 
     try {
       const response = await fetch('http://localhost:8080/api/addTask', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`,
+          
         },
         body: JSON.stringify({
           name: taskName,

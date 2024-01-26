@@ -29,11 +29,13 @@ function PlannerPage() {
   }, []);
 
   const fetchAssignedTasks = async () => {
+    const token = Cookies.get('jwtToken');
     try {
       const response = await fetch('http://localhost:8080/api/user/getAssignedTask', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`,
         },
         body: JSON.stringify({
           login: Cookies.get('Login'),
@@ -73,11 +75,14 @@ function PlannerPage() {
   };
 
   const fetchTasks = async () => {
+    const token = Cookies.get('jwtToken');
+
     try {
       const response = await fetch('http://localhost:8080/api/user/getTasks', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`,
         },
         body: JSON.stringify({
           login: Cookies.get('Login'),
@@ -145,6 +150,7 @@ function PlannerPage() {
       const userLogin = Cookies.get('Login');
       if (userLogin === 'admin') {
         console.log('Navigating to Users');
+        navigate('/Users');
         navigate('/Users');
       } else {
         console.log('Unauthorized access to User Manager');

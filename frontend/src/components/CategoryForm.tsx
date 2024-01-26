@@ -14,12 +14,15 @@ const CategoryForm: React.FC<CategoryFormProps> = ({ onClose }) => {
     e.preventDefault();
 
     try {
+      const token = Cookies.get('jwtToken');
+
       const response = await fetch('http://localhost:8080/api/addCategory', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`, // Dodaj nagłówek Authorization z tokenem JWT 
         },
-        body: JSON.stringify({ name: categoryName, user: Cookies.get('Login')}),
+        body: JSON.stringify({ name: categoryName, user: Cookies.get('Login') }),
       });
 
       if (!response.ok) {
@@ -27,7 +30,7 @@ const CategoryForm: React.FC<CategoryFormProps> = ({ onClose }) => {
         setError('Something went wrong');
       } else {
         onClose();
-        window.location.reload()
+        window.location.reload();
       }
     } catch (error) {
       setError('Something went wrong');

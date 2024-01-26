@@ -15,7 +15,7 @@ const isAuthenticated = () => {
 const isAdmin = () => {
   const jwtToken = Cookies.get('jwtToken');
   const login = Cookies.get('Login');
-  return login == "admin" && !!jwtToken;
+  return login === "admin" && !!jwtToken;
 };
 
 function App() {
