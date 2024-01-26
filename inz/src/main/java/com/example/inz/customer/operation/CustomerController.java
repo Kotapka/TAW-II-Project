@@ -1,13 +1,8 @@
 package com.example.inz.customer.operation;
 
 import com.example.inz.configuration.UserAuthenticationProvider;
-import com.example.inz.customer.operation.domain.Customer;
 import com.example.inz.customer.operation.domain.CustomerOperationFacade;
-import com.example.inz.customer.operation.dto.CustomerDto;
-import com.example.inz.customer.operation.dto.LoginDto;
-import com.example.inz.customer.operation.dto.SignUpDto;
-import com.example.inz.customer.operation.exception.InvalidDataException;
-import com.example.inz.operations.MD5;
+import com.example.inz.customer.operation.dto.*;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
@@ -16,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
+import java.util.List;
 
 @RestController
 @RequestMapping(path = "/api")
@@ -47,5 +43,26 @@ public class CustomerController {
         customer.setToken(userAuthenticationProvider.createToken(customer.getLogin()));
 
         return ResponseEntity.created(URI.create("/users/" + customer.getId())).body(customer);
+    }
+
+    @GetMapping(value = "/getUsers", produces = "application/json")
+    @Operation(summary = "Register new user to application")
+    public ResponseEntity<List<UserListDto>> getUsers() {
+        List<UserListDto> userList = customerOperationFacade.getUsers();
+        return ResponseEntity.ok(userList);
+    }
+
+    @PostMapping(value = "/setActiveFalse", produces = "application/json")
+    @Operation(summary = "Register new user to application")
+    public ResponseEntity<UserLoginDto> setActiveFalse(@RequestBody UserLoginDto loginDto) {
+        customerOperationFacade.setActiveFalse(loginDto);
+        return ResponseEntity.ok(loginDto);
+    }
+
+    @PostMapping(value = "/setActiveTrue", produces = "application/json")
+    @Operation(summary = "Register new user to application")
+    public ResponseEntity<UserLoginDto> setActiveTrue(@RequestBody UserLoginDto loginDto) {
+        customerOperationFacade.setActiveTrue(loginDto);
+        return ResponseEntity.ok(loginDto);
     }
 }

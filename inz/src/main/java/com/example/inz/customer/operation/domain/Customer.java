@@ -25,4 +25,6 @@ public class Customer {
     private String surname;
     private String password;
     private String login;
+    private Boolean is_admin;
+    private Boolean is_active;
 }

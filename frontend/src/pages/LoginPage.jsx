@@ -5,6 +5,7 @@ import axios from 'axios';
 import Cookies from 'js-cookie';
 import { request, setAuthHeader } from '../axios_helper';
 import { useNavigate } from 'react-router-dom';
+import PopupComponent from '../components/PopupComponent';
 
 function LoginPage() {
   const [login, setLogin] = useState('');
@@ -12,6 +13,9 @@ function LoginPage() {
   const [name, setName] = useState('');
   const [surname, setSurname] = useState('');
   const [showLoginForm, setShowLoginForm] = useState(true);
+  const [loginError, setLoginError] = useState(false);
+  const [userCreated, setUserCreated] = useState(false);
+  const [userCreatedFail, setUserCreatedFail] = useState(false);
 
   const navigate = useNavigate();
 
@@ -27,12 +31,14 @@ function LoginPage() {
         const token = response.data.token;
         setAuthHeader(token);
         Cookies.set('jwtToken', token);
-        
-        // Po pomyślnym zalogowaniu, przekieruj użytkownika do "/PlannerPage"
+        Cookies.set('Login',login)
+        console.log('About to navigate');
+        navigate('/PlannerPage');
         navigate('/PlannerPage');
       }
     } catch (error) {
       console.error('Error:', error.message);
+      setLoginError(true);
     }
   };
 
@@ -52,11 +58,14 @@ function LoginPage() {
       console.log('Response:', response.data);
       if (response.data) {
         const token = response.data.token;
-        setAuthHeader(token);
-        Cookies.set('jwtToken', token);
+        // setAuthHeader(token);
+        // Cookies.set('jwtToken', token);
+        // Cookies.set('Login',login)
+        setUserCreated(true)
       }
     } catch (error) {
       console.error('Error:', error.message);
+      setUserCreatedFail(true)
     }
   };
 
@@ -67,13 +76,17 @@ function LoginPage() {
           <div className="col-12 col-md-8 col-lg-6 col-xl-5">
             <div className="card bg-dark text-white" style={{ borderRadius: '1rem' }}>
               <div className="card-body p-5 text-center">
+                <div>
+                {loginError && (<PopupComponent isOpen={true} onClose={() => setLoginError(false)} content="Invalid Data" />)}
+                {userCreated && (<PopupComponent isOpen={true} onClose={() => setUserCreated(false)} content="User has been created" />)}
+                {userCreatedFail && (<PopupComponent isOpen={true} onClose={() => setUserCreatedFail(false)} content="User could not be created" />)}
+                </div>
                 <div className="mb-md-5 mt-md-4 pb-5">
                   <h2 className="fw-bold mb-2 text-uppercase">{showLoginForm ? 'Login' : 'Sign Up'}</h2>
                   <p className="text-white-50 mb-5">
                     {showLoginForm ? 'Please enter your login and password!' : 'Create an account!'}
                   </p>
                   {showLoginForm ? (
-                    // Formularz logowania
                     <div>
                       <div className="form-outline form-white mb-4">
                         <input

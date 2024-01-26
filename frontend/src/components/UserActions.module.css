@@ -11,14 +11,14 @@
   z-index: 1000;
 }
 
-.categoryForm {
+.userActionsForm {
   background: #583BE1;
   padding: 20px;
-  border-radius: 0;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
   color: #fff;
-  width: 300px; 
-  z-index: 1001; 
+  width: 300px;
+  z-index: 1001;
 }
 
 .inputField {
@@ -27,18 +27,36 @@
   margin: 10px 0;
   border: none;
   border-radius: 5px;
-  background-color: #fff;
-  color: #000;
 }
 
-.addButton,
+.buttonContainer {
+  display: flex;
+  justify-content: space-between;
+}
+
+.activateButton,
+.deactivateButton {
+  flex: 1;
+  padding: 10px;
+  margin-right: 5px;
+  background-color: #4CAF50;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.deactivateButton {
+  background-color: #f44336;
+}
+
 .closeButton {
   width: 100%;
   padding: 10px;
   background-color: #472dc9;
   color: #fff;
   border: none;
+  margin-top: 10px;
   border-radius: 5px;
   cursor: pointer;
-  margin-bottom: 10px;
 }

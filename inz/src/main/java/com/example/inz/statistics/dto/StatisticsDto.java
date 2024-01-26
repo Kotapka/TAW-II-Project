@@ -1,15 +1,19 @@
-package com.example.inz.category.dto;
+package com.example.inz.statistics.dto;
+
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Date;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class CategoryDto {
-    private String name;
-    private String user;
+public class StatisticsDto {
+    String user;
+    Date startDate;
+    Date endDate;
 }
